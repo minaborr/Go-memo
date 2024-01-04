@@ -120,11 +120,23 @@ package main
 import "fmt"
 
 func main() {
-	sr, err := res(2.0, 1.5)
-	fmt.Println(err)
-	fmt.Println(sr)
+	eF := exFor(1, 100)
+	fmt.Printf("res for eF = %d \n", eF)
+	fmt.Println("------------------------------------------------")
+
+	resPaint, err := exFuncEnterExit(2.0, 1.5)
+	fmt.Printf("Amount of paint - %0.2f, error - %v \n", resPaint, err)
+	fmt.Println("------------------------------------------------")
 }
-func res(width float64, height float64) (float64, error) {
+
+func exFor(e int, num int) (int) {
+	for i := e; i<3; i++ {
+		num += i
+	}
+	return num
+}
+
+func exFuncEnterExit(width float64, height float64) (float64, error) {
 	if width < 0 {
 		return 0, fmt.Errorf("a width of %0.2f is invalid", width)
 	}
@@ -134,3 +146,4 @@ func res(width float64, height float64) (float64, error) {
 	area := width * height
 	return area / 10.0, nil
 }
+
