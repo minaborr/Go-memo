@@ -115,18 +115,38 @@ func main() {
 
 	num := 100
 
-	fmt.Println("\nArray------------------------------------------------")
+	fmt.Println("\nArray--------------------------------------------------------------")
+	// 1 способ создания массива
 	var myArray [3]int
 	myArray[0] = 777
-	myArray[1] = 100
+	myArray[1] = num
 	myArray[2] = 200
+
+	// 2 способ создание массива
 	//var myArray [3]int = [3]int{777, 100, 200}
+
+	// 3 способ создания массива
 	//myArray := [3]int{777, 100, 200}
+
+	// Если в квадратных скобках вместо длины указано троеточие,
+	// то длина массива определяется, исходя из количества переданных ему элементов
+	// var numbers = [...]int{1,2,3,4,5}   // длина массива 5
+
 	fmt.Println(myArray)
 	fmt.Printf("myArray[1] = %d, len(myArray) = %d \n", myArray[1], len(myArray))
+
+	// функция которая принимает массив размером 3 типа int
 	myFuncArray(myArray)
 
-	fmt.Println("\nPointers---------------------------------------------")
+	// Оператор среза s[i:j] создает из последовательности s новый срез
+	arrS := myArray[:1]
+	fmt.Println(arrS)
+
+	// Для добавления в срез применяется встроенная функция append(slice, value)
+	arrS = append(arrS, 888, 999)
+	fmt.Printf("arrS = %v \n", arrS)
+
+	fmt.Println("\nPointers-----------------------------------------------------------")
 	//Функция может изменить только копию значения параметра, но не оригинал.
 	// Таким образом, любые изменения,внесенные внутри функции, не будут видны за ее пределами!
 	eF := exFor(1, num)
@@ -135,6 +155,7 @@ func main() {
 
 	//Оператор & (амперсанд) используется в Go для получения адреса переменной
 	fmt.Printf("адрес хранения num = %v \n", &num)
+
 	//Значения, представляющие адреса переменных, называются указателями,
 	// потому что они указывают на область памяти, в которой хранится переменная
 	//var numL *int //создаем переменную с указателем типа int
@@ -144,9 +165,19 @@ func main() {
 	*numLink = 2
 	fmt.Printf("теперь num изменилась через *numLink и num равно = %d \n", num)
 
-	fmt.Println("\nFunc------------------------------------------------")
+	fmt.Println("\nFunc---------------------------------------------------------------")
+	// пример - функция принимает и возвращает два параметра сразу
 	resPaint, err := exFuncEnterExit(2.0, 1.5)
 	fmt.Printf("Amount of paint - %0.2f, error - %v \n", resPaint, err)
+
+	//Функции с переменным количеством аргументов
+	resf1 := exFuncArg(7, 6, 5, 4, 3, 2, 1)
+	fmt.Printf("res1 = %d \n", resf1)
+	resf2 := exFuncArg(7, 6)
+	fmt.Printf("res2 = %d \n", resf2)
+	//передаем массив в функцию в качестве параметра
+	resf3 := exFuncArg(resf1...)
+	fmt.Printf("res3 = %d \n", resf3)
 }
 
 func exFor(e int, numm int) int {
@@ -172,4 +203,14 @@ func myFuncArray(arr [3]int) {
 	for index, value := range arr {
 		fmt.Printf("index = %d, value = %d \n", index, value)
 	}
+}
+
+// Функции с переменным количеством аргументов
+func exFuncArg(params ...int) []int {
+	var res []int
+	for _, value := range params {
+		value += 2
+		res = append(res, value)
+	}
+	return res
 }
