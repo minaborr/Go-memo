@@ -111,6 +111,12 @@ package main
 
 import "fmt"
 
+// создаем структуру car, в не main, чтобы функция exFuncS были в одной области видимости
+type car struct {
+	m string
+	n int
+}
+
 func main() {
 
 	num := 100
@@ -206,6 +212,50 @@ func main() {
 	//передаем массив в функцию в качестве параметра
 	resf3 := exFuncArg(resf1...)
 	fmt.Printf("res3 = %d \n", resf3)
+
+	fmt.Println("\nstruct-------------------------------------------------------------")
+	// если создаем структуру через var, значит на основе ее нельзя создать другие переменные
+	// придеться каждый раз заново создовать для новой переменной
+	var myStruct struct {
+		name string
+		age  int
+	}
+	fmt.Println(myStruct)
+	myStruct.name = "nik"
+	myStruct.age = 33
+	fmt.Println(myStruct.name, myStruct.age)
+
+	// если создаем струкуру через type, значит на ее основе можем создовать другие переменные
+	// Тип структуры записывается только один раз, как базовый тип для определяемого типа
+	// определяем тип person
+	type person struct {
+		name string
+		age  int
+		ok   bool
+	}
+	var dev person
+	dev.name = "sergey"
+	dev.age = 33
+	fmt.Println(dev.name, dev.age)
+	var ani person
+	ani.name = "may"
+	ani.age = 27
+	fmt.Println(ani.name, ani.age)
+	// второй способ обьявления
+	mi := person{"mi", 18, true}
+	mi.name = "miiilka"
+	fmt.Println(mi.name)
+	// третий способ обьявления и здесь все заплнено нулевым значение
+	ol := person{}
+	fmt.Println(ol)
+
+	// создаем переменную типа car, которую создали в начале файла
+	ji := car{"jip", 4356}
+	fmt.Println(ji)
+	// функция котороя принимает только тип car
+	exFuncS(ji)
+	//exFuncS(ol) - будет ошибка, не тот тип
+
 }
 
 func exFor(e int, numm int) int {
@@ -241,4 +291,11 @@ func exFuncArg(params ...int) []int {
 		res = append(res, value)
 	}
 	return res
+}
+
+// здесь функция принимате переменную с типом car
+func exFuncS(p car) {
+	p.m = "undefined"
+	p.n = 0000
+	fmt.Println(p.m, p.n)
 }
