@@ -197,7 +197,11 @@ func main() {
 	numLink := &num // короткое обьявление переменной-указателя. теперь numLink это указатель
 	fmt.Printf("(значение по указателю) *numLink = %d \n", *numLink)
 	*numLink = 2
-	fmt.Printf("теперь num изменилась через *numLink и num равно = %d \n", num)
+	fmt.Printf("теперь num изменилась через переменную *numLink и num равно = %d \n", num)
+
+	// пример фунции которая изменяет переменную
+	mlink(&num)
+	fmt.Printf("теперь num изменилась через функцию mlink() и num равно = %d \n", num)
 
 	fmt.Println("\nFunc---------------------------------------------------------------")
 	// пример - функция принимает и возвращает два параметра сразу
@@ -252,10 +256,19 @@ func main() {
 	// создаем переменную типа car, которую создали в начале файла
 	ji := car{"jip", 4356}
 	fmt.Println(ji)
-	// функция котороя принимает только тип car
-	exFuncS(ji)
-	//exFuncS(ol) - будет ошибка, не тот тип
+	//exFuncS(ol) - будет ошибка, не тот тип // функция принимает только тип car
+	// значения в функцию передаються копией переменных и вне функции не изменяються
+	//exFuncS(ji) // undefined 0
+	fmt.Println(ji) // {jip 4356}
+	// теперь значения изменяться
+	exFuncS(&ji)
+	fmt.Println("----", ji)
 
+	fmt.Println("\nmethod-------------------------------------------------------------")
+	ji.myMethodCar()
+	fmt.Println("ji.myMethodCar() --> ", ji)
+
+	fmt.Println("\n")
 }
 
 func exFor(e int, numm int) int {
@@ -293,9 +306,19 @@ func exFuncArg(params ...int) []int {
 	return res
 }
 
+func mlink(i *int) {
+	*i = 100200
+}
+
 // здесь функция принимате переменную с типом car
-func exFuncS(p car) {
+func exFuncS(p *car) {
 	p.m = "undefined"
 	p.n = 0000
 	fmt.Println(p.m, p.n)
+}
+
+// если внутри метода не ставим * то значение будут изменены только внутри метода
+func (c *car) myMethodCar() {
+	c.m = "jjj"
+	c.n = 333
 }
