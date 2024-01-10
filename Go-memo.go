@@ -110,6 +110,7 @@
 package main
 
 import "fmt"
+import "reflect"
 
 // создаем структуру car, в не main, чтобы функция exFuncS были в одной области видимости
 type car struct {
@@ -217,6 +218,25 @@ func main() {
 	resf3 := exFuncArg(resf1...)
 	fmt.Printf("res3 = %d \n", resf3)
 
+	fmt.Println("\ntype-------------------------------------------------------------")
+	type mytype1 int
+	var t1 mytype1
+	t1 = 2123456
+	t1 = 888
+	fmt.Println("t1 =", t1, "тип =", reflect.TypeOf(t1))
+
+	type mytype2 string
+	fmt.Println(mytype2("sdkljflsjfs"))
+	var t2 mytype2 = "rrrrrrr"
+	fmt.Println("t2 =", t2, "тип =", reflect.TypeOf(t2))
+
+	type mytype3 int
+	fmt.Println(mytype3(444))
+
+	t3 := mytype3(111)
+	fmt.Println("t3 =", t3, "тип =", reflect.TypeOf(t3))
+	fmt.Printf("еще раз тип = %T\n", t3)
+
 	fmt.Println("\nstruct-------------------------------------------------------------")
 	// если создаем структуру через var, значит на основе ее нельзя создать другие переменные
 	// придеться каждый раз заново создовать для новой переменной
@@ -267,6 +287,7 @@ func main() {
 	fmt.Println("\nmethod-------------------------------------------------------------")
 	ji.myMethodCar()
 	fmt.Println("ji.myMethodCar() --> ", ji)
+	// mi.myMethodCar() --> будет ошибка так как метод пренадлежит car
 
 	fmt.Println("\n")
 }
@@ -317,6 +338,7 @@ func exFuncS(p *car) {
 	fmt.Println(p.m, p.n)
 }
 
+// метод структуры car
 // если внутри метода не ставим * то значение будут изменены только внутри метода
 func (c *car) myMethodCar() {
 	c.m = "jjj"
